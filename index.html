@@ -24,9 +24,29 @@
             background-color: #222;
             color: #fff;
         }
+        .news-ticker {
+            background: #007acc;
+            color: white;
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .news-ticker div {
+            display: inline-block;
+            white-space: nowrap;
+            animation: slideNews 12s linear infinite;
+        }
+        @keyframes slideNews {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
         .container {
             max-width: 800px;
-            margin: auto;
+            margin: 80px auto 20px;
             padding: 20px;
             background: #ffffff;
             border-radius: 10px;
@@ -53,83 +73,13 @@
             color: black;
             border-radius: 5px;
         }
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 250px;
-            height: 100%;
-            background: #222;
-            color: white;
-            padding: 20px;
-            overflow-y: auto;
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(-100%);
-        }
-        .sidebar.open {
-            transform: translateX(0);
-        }
-        .sidebar a {
-            display: block;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-            background: #007acc;
-        }
-        .sidebar a:hover {
-            background: #00a86b;
-        }
-        .menu-button {
-            position: fixed;
-            left: 10px;
-            top: 10px;
-            background: #007acc;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .close-sidebar {
-            display: block;
-            background: red;
-            color: white;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            text-align: center;
-            margin-top: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #007acc;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: none;
-        }
-        .dark-mode-toggle {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: #007acc;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
+    <div class="news-ticker">
+        <div>📢 Welcome to Class 11 English Lessons! | 📚 New study materials available! | 🔥 Stay updated with the latest lessons! | ✨ Check out our latest updates!</div>
+    </div>
+    
     <button class="menu-button" onclick="toggleSidebar()">☰</button>
     <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
     
@@ -144,12 +94,12 @@
     <div class="container">
         <h1>Class 11 English Lessons</h1>
         <div id="lesson1" class="lesson" onclick="toggleLesson(this)">
-            <h2>Lesson 1: [Title Here]</h2>
-            <div class="lesson-content">Content for Lesson 1...</div>
+            <h2>Lesson 1: The Portrait of a Lady</h2>
+            <div class="lesson-content">A heartwarming story about the relationship between the author and his grandmother.</div>
         </div>
         <div id="lesson2" class="lesson" onclick="toggleLesson(this)">
-            <h2>Lesson 2: [Title Here]</h2>
-            <div class="lesson-content">Content for Lesson 2...</div>
+            <h2>Lesson 2: We’re Not Afraid to Die</h2>
+            <div class="lesson-content">A thrilling survival story about a family facing a storm at sea.</div>
         </div>
         <div id="lesson3" class="lesson" onclick="toggleLesson(this)">
             <h2>Lesson 3: The Voice of the Rain</h2>
@@ -161,25 +111,26 @@
         </div>
     </div>
     
-    <button class="back-to-top" onclick="scrollToTop()">⬆ Back to Top</button>
+    <button class="chat-toggle" onclick="toggleChat()">💬</button>
+    <div class="chat-container" id="chatBox">
+        <div class="chat-header">AI Chat Support</div>
+        <div class="chat-body" id="chatBody"></div>
+    </div>
     
     <script>
         function toggleLesson(element) {
             let content = element.querySelector('.lesson-content');
             content.style.display = content.style.display === 'block' ? 'none' : 'block';
         }
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        window.onscroll = function() {
-            let button = document.querySelector(".back-to-top");
-            button.style.display = document.documentElement.scrollTop > 100 ? "block" : "none";
-        };
         function toggleSidebar() {
             document.getElementById("sidebar").classList.toggle("open");
         }
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
+        }
+        function toggleChat() {
+            let chatBox = document.getElementById("chatBox");
+            chatBox.style.display = chatBox.style.display === "block" ? "none" : "block";
         }
     </script>
 </body>
