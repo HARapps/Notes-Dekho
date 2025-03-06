@@ -14,98 +14,16 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5dc; /* Light beige for study-friendly theme */
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
             color: #333;
-        }chat-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            background: white;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: none;
+            transition: background-color 0.3s, color 0.3s;
         }
-        .chat-header {
-            background: #4a90e2;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            border-radius: 10px 10px 0 0;
+        .dark-mode {
+            background-color: #222;
+            color: #fff;
         }
-        .chat-body {
-            padding: 10px;
-            height: 200px;
-            overflow-y: auto;
-        }
-        .chat-input {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid #ccc;
-        }
-        .chat-input input {
-            flex: 1;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .chat-input button {
-            background: #4a90e2;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            margin-left: 5px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .chat-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #4a90e2;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <button class="chat-toggle" onclick="toggleChat()">💬</button>
-    <div class="chat-container" id="chatBox">
-        <div class="chat-header">AI Chat Support</div>
-        <div class="chat-body" id="chatBody"></div>
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Ask a question...">
-            <button onclick="sendMessage()">Send</button>
-        </div>
-    </div>
-    
-    <script>
-        function toggleChat() {
-            let chatBox = document.getElementById("chatBox");
-            chatBox.style.display = chatBox.style.display === "block" ? "none" : "block";
-        }
-        
-        function sendMessage() {
-            let inputField = document.getElementById("chatInput");
-            let message = inputField.value.trim();
-            if (message === "") return;
-            
-            let chatBody = document.getElementById("chatBody");
-            let userMessage = `<p><strong>You:</strong> ${message}</p>`;
-            chatBody.innerHTML += userMessage;
-            
-            let botReply = `<p><strong>AI:</strong> I'm here to help! Please ask about lessons.</p>`;
-            setTimeout(() => {
-                chatBody.innerHTML += botReply;
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }, 1000);
-            
-            inputField.value = "";
         .container {
             max-width: 800px;
             margin: auto;
@@ -114,85 +32,155 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .news-headline {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            display: block;
-            width: 100%;
-            background: #4a90e2;
-            color: white;
-            padding: 10px 0;
-            position: relative;
-        }
-        @keyframes scrollText {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        .marquee {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-        .marquee div {
-            display: inline-block;
-            white-space: nowrap;
-            animation: scrollText 10s linear infinite;
-        }
         .lesson {
-            margin: 20px 0;
+            margin: 10px 0;
             padding: 15px;
             border-radius: 8px;
             color: white;
             font-weight: bold;
+            cursor: pointer;
         }
         .lesson:nth-child(odd) {
-            background: #4a90e2; /* Blue shade */
+            background: #007acc;
         }
         .lesson:nth-child(even) {
-            background: #50c878; /* Green shade */
+            background: #00a86b;
         }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
+        .lesson-content {
+            display: none;
             padding: 10px;
-            background: #333;
-            color: white;
+            background: white;
+            color: black;
             border-radius: 5px;
+        }
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background: #222;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(-100%);
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background: #007acc;
+        }
+        .sidebar a:hover {
+            background: #00a86b;
+        }
+        .menu-button {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .close-sidebar {
+            display: block;
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="marquee">
-        <div>Welcome to Class 11 English Lessons - Learn and Grow! | This website is created by Har Apps</div>
+    <button class="menu-button" onclick="toggleSidebar()">☰</button>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+    
+    <div class="sidebar" id="sidebar">
+        <h2>Study Materials</h2>
+        <a href="#class10">Class 10</a>
+        <a href="#class11">Class 11</a>
+        <a href="#class12">Class 12</a>
+        <button class="close-sidebar" onclick="toggleSidebar()">Close ✖</button>
     </div>
+    
     <div class="container">
         <h1>Class 11 English Lessons</h1>
-        <div class="lesson">
+        <div id="lesson1" class="lesson" onclick="toggleLesson(this)">
             <h2>Lesson 1: [Title Here]</h2>
-            <p>Content for Lesson 1...</p>
+            <div class="lesson-content">Content for Lesson 1...</div>
         </div>
-        <div class="lesson">
+        <div id="lesson2" class="lesson" onclick="toggleLesson(this)">
             <h2>Lesson 2: [Title Here]</h2>
-            <p>Content for Lesson 2...</p>
+            <div class="lesson-content">Content for Lesson 2...</div>
         </div>
-        <div class="lesson">
+        <div id="lesson3" class="lesson" onclick="toggleLesson(this)">
             <h2>Lesson 3: The Voice of the Rain</h2>
-            <p>By Walt Whitman</p>
-            <p>This poem describes the beauty and cyclic nature of rain...</p>
-            <a href="https://drive.google.com/file/d/1hipY5D3Y1H8J_dKBCbO21Z_tBHsHS7C6/view?usp=sharing" target="_blank">Download PDF</a>
-        </div>
-        <div class="lesson">
-            <h2>Lesson 4: [Title Here]</h2>
-            <p>Content for Lesson 4...</p>
-        </div>
-        <div class="lesson">
-            <h2>Lesson 5-10: [Other Lessons]</h2>
-            <p>Content for remaining lessons...</p>
+            <div class="lesson-content">
+                <p>By Walt Whitman</p>
+                <p>This poem describes the beauty and cyclic nature of rain...</p>
+                <a href="https://drive.google.com/file/d/1hipY5D3Y1H8J_dKBCbO21Z_tBHsHS7C6/view?usp=sharing" target="_blank">Download PDF</a>
+            </div>
         </div>
     </div>
-    <div class="footer">© 2025 Har Apps. All rights reserved.</div>
+    
+    <button class="back-to-top" onclick="scrollToTop()">⬆ Back to Top</button>
+    
+    <script>
+        function toggleLesson(element) {
+            let content = element.querySelector('.lesson-content');
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        window.onscroll = function() {
+            let button = document.querySelector(".back-to-top");
+            button.style.display = document.documentElement.scrollTop > 100 ? "block" : "none";
+        };
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
 </body>
 </html>
